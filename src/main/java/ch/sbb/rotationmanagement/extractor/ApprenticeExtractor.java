@@ -5,28 +5,24 @@ import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Component;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Component
-public class ApprenticeExtractor implements ResultSetExtractor<List<ApprenticeDTO>> {
+public class ApprenticeExtractor implements ResultSetExtractor<ApprenticeDTO> {
 
     @Override
-    public List<ApprenticeDTO> extractData(java.sql.ResultSet resultSet) throws SQLException {
-        List<ApprenticeDTO> apprentices = new ArrayList<>();
+    public ApprenticeDTO extractData(java.sql.ResultSet resultSet) throws SQLException {
+            ApprenticeDTO apprentice = new ApprenticeDTO();
 
         while (resultSet.next()) {
-            ApprenticeDTO apprentice = new ApprenticeDTO(
-                    resultSet.getLong("id"),
-                    resultSet.getString("first_name"),
-                    resultSet.getString("last_name"),
-                    resultSet.getInt("year"),
-                    resultSet.getBoolean("looking_for_rotation")
-            );
+                    apprentice.setId(resultSet.getLong("id"));
+                    apprentice.setFirstName(resultSet.getString("first_name")); 
+                    apprentice.setLastName(resultSet.getString("last_name")); 
+                    apprentice.setYear(resultSet.getInt("year"));
+                    apprentice.setLookingForRotation(resultSet.getBoolean("looking_for_rotation")); 
 
-            apprentices.add(apprentice);
         }
 
-        return apprentices;
+        return apprentice;
     }
 }
