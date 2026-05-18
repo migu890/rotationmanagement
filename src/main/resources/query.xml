@@ -20,6 +20,96 @@
             FROM
                 apprentice
         </prop>
+
+        <prop key="getApprenticeById">
+            SELECT
+                id,
+                first_name,
+                last_name,
+                year,
+                looking_for_rotation
+            FROM
+                apprentice
+            WHERE
+                id = :id
+        </prop>
+
+        <prop key="createApprentice">
+            INSERT INTO apprentice (
+                first_name,
+                last_name,
+                year,
+                looking_for_rotation
+            )
+            VALUES (
+                :firstName,
+                :lastName,
+                :year,
+                :lookingForRotation
+            )
+        </prop>
+
+        <prop key="updateApprentice">
+            UPDATE
+                apprentice
+            SET
+                first_name = :firstName,
+                last_name = :lastName,
+                year = :year,
+                looking_for_rotation = :lookingForRotation
+            WHERE
+                id = :id
+        </prop>
+
+        <prop key="deleteApprenticeById">
+            DELETE FROM
+                apprentice
+            WHERE
+                id = :id
+        </prop>
+
+        <prop key="getApprenticeCompetencies">
+            SELECT
+                competency.id,
+                competency.title,
+                competency.description,
+                competency.competence_area,
+                competency.semester
+            FROM
+                competency
+            INNER JOIN apprentice_competency
+                ON competency.id = apprentice_competency.competency_id
+            WHERE
+                apprentice_competency.apprentice_id = :id
+        </prop>
+
+        <prop key="deleteCompetenciesByApprenticeId">
+            DELETE FROM
+                apprentice_competency
+            WHERE
+                apprentice_id = :id
+        </prop>
+
+        <prop key="createApprenticeCompetency">
+            INSERT INTO apprentice_competency (
+                apprentice_id,
+                competency_id
+            )
+            VALUES (
+                :apprenticeId,
+                :competencyId
+            )
+        </prop>
+        <prop key="getAllCompetencies">
+            SELECT
+                id,
+                title,
+                description,
+                competence_area,
+                semester
+            FROM
+                competency
+        </prop>
         <prop key="getAllRotations">
             SELECT
                 id,
@@ -31,6 +121,66 @@
                 date_of_availability
             FROM
                 rotation
+        </prop>
+
+        <prop key="getAvailableRotations">
+            SELECT
+                id,
+                title,
+                description,
+                department,
+                technologies,
+                status,
+                date_of_availability
+            FROM
+                rotation
+            WHERE
+                status = 'AVAILABLE'
+        </prop>
+        <prop key="getAllAssignments">
+            SELECT
+                id,
+                apprentice_id,
+                rotation_id,
+                start_date,
+                end_date
+            FROM
+                assignment
+        </prop>
+
+        <prop key="getAssignmentById">
+            SELECT
+                id,
+                apprentice_id,
+                rotation_id,
+                start_date,
+                end_date
+            FROM
+                assignment
+            WHERE
+                id = :id
+        </prop>
+
+        <prop key="createAssignment">
+            INSERT INTO assignment (
+                apprentice_id,
+                rotation_id,
+                start_date,
+                end_date
+            )
+            VALUES (
+                :apprenticeId,
+                :rotationId,
+                :startDate,
+                :endDate
+            )
+        </prop>
+
+        <prop key="deleteAssignmentById">
+            DELETE FROM
+                assignment
+            WHERE
+                id = :id
         </prop>
 
     </util:properties>

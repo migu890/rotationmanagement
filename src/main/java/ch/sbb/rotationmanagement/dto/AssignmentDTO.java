@@ -4,14 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApprenticeDTO {
+public class AssignmentDTO {
 
     private Long id;
-    private String firstName;
-    private String lastName;
-    private Integer year;
-    private Boolean lookingForRotation;
+    private Long apprenticeId;
+    private Long rotationId;
+    private LocalDate startDate;
+    private LocalDate endDate;
 }
