@@ -20,16 +20,34 @@ public class CompetencyExtractor implements ResultSetExtractor<List<CompetencyDT
         while (resultSet.next()) {
 
             CompetencyDTO competencyDTO = new CompetencyDTO(
-                    resultSet.getLong("id"),
-                    resultSet.getString("title"),
+                    resultSet.getInt("id"),
                     resultSet.getString("description"),
-                    resultSet.getString("competence_area"),
-                    resultSet.getInt("semester")
+                    resultSet.getString("category"),
+                    resultSet.getString("code"),
+                    this.getStringIfExists(resultSet, "competency_state"),
+                    this.getDoubleIfExists(resultSet, "weight")
             );
 
             competencies.add(competencyDTO);
         }
 
         return competencies;
+    }
+
+    private String getStringIfExists(ResultSet resultSet, String columnName) {
+        try {
+            return resultSet.getString(columnName);
+        } catch (SQLException exception) {
+            return null;
+        }
+    }
+
+    private Double getDoubleIfExists(ResultSet resultSet, String columnName) {
+        try {
+            double value = resultSet.getDouble(columnName);
+            return resultSet.wasNull() ? null : value;
+        } catch (SQLException exception) {
+            return null;
+        }
     }
 }

@@ -9,9 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CompetencyDTO {
 
-    private Long id;
-    private String title;
+    private Integer id;
     private String description;
-    private String competenceArea;
-    private Integer semester;
+    private String category;
+    private String code;
+    private String competencyState;
+    private Double weight;
 }

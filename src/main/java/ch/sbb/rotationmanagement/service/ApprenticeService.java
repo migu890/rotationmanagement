@@ -20,7 +20,7 @@ public class ApprenticeService {
         return this.apprenticeRepository.getAllApprentices();
     }
 
-    public ApprenticeDTO getApprenticeById(Long id) {
+    public ApprenticeDTO getApprenticeById(Integer id) {
         return this.apprenticeRepository.getApprenticeById(id);
     }
 
@@ -32,15 +32,15 @@ public class ApprenticeService {
         this.apprenticeRepository.updateApprentice(apprenticeDTO);
     }
 
-    public void deleteApprenticeById(Long id) {
+    public void deleteApprenticeById(Integer id) {
         this.apprenticeRepository.deleteApprenticeById(id);
     }
 
-    public List<CompetencyDTO> getApprenticeCompetencies(Long id) {
+    public List<CompetencyDTO> getApprenticeCompetencies(Integer id) {
         return this.apprenticeRepository.getApprenticeCompetencies(id);
     }
 
-    public void updateCompetenciesByApprentice(Long id, List<CompetencyDTO> competencyDTOs) {
-        this.apprenticeRepository.updateCompetenciesByApprentice(id, competencyDTOs);
+    public void updateCompetenciesByApprentice(Integer id, Integer competencyId, String competencyState) {
+        this.apprenticeRepository.updateCompetenciesByApprentice(id, competencyId, competencyState);
     }
 }

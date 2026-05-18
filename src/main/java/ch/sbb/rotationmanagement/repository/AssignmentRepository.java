@@ -3,6 +3,7 @@ package ch.sbb.rotationmanagement.repository;
 import ch.sbb.rotationmanagement.dto.AssignmentDTO;
 import ch.sbb.rotationmanagement.extractor.AssignmentExtractor;
 import ch.sbb.rotationmanagement.extractor.MultipleAssignmentExtractor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -24,7 +25,7 @@ public class AssignmentRepository {
             NamedParameterJdbcTemplate jdbcTemplate,
             AssignmentExtractor assignmentExtractor,
             MultipleAssignmentExtractor multipleAssignmentExtractor,
-            Properties queryProperties
+            @Qualifier("rotationQueries") Properties queryProperties
     ) {
         this.jdbcTemplate = jdbcTemplate;
         this.assignmentExtractor = assignmentExtractor;
@@ -35,8 +36,18 @@ public class AssignmentRepository {
     public List<AssignmentDTO> getAllAssignments() {
 
         String query = this.queryProperties.getProperty("getAllAssignments");
+        return this.jdbcTemplate.query(
+                query,
+                this.multipleAssignmentExtractor
+        );
+    }
+
+    public AssignmentDTO getAssignmentById(Integer id) {
+
+        String query = this.queryProperties.getProperty("getAssignmentById");
 
         Map<String, Object> queryParameters = new HashMap<>();
+        queryParameters.put("id", id);
 
         MapSqlParameterSource parameters =
                 new MapSqlParameterSource(queryParameters);
@@ -44,13 +55,13 @@ public class AssignmentRepository {
         return this.jdbcTemplate.query(
                 query,
                 parameters,
-                this.multipleAssignmentExtractor
+                this.assignmentExtractor
         );
     }
 
-    public AssignmentDTO getAssignmentById(Long id) {
+    public AssignmentDTO getAssignmentByApprentice(Integer id) {
 
-        String query = this.queryProperties.getProperty("getAssignmentById");
+        String query = this.queryProperties.getProperty("getAssignmentByApprentice");
 
         Map<String, Object> queryParameters = new HashMap<>();
         queryParameters.put("id", id);
@@ -84,7 +95,7 @@ public class AssignmentRepository {
         );
     }
 
-    public void deleteAssignmentById(Long id) {
+    public void deleteAssignmentById(Integer id) {
 
         String query = this.queryProperties.getProperty("deleteAssignmentById");
 

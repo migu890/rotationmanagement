@@ -20,9 +20,9 @@ public class MultipleAssignmentExtractor implements ResultSetExtractor<List<Assi
         while (resultSet.next()) {
 
             AssignmentDTO assignmentDTO = new AssignmentDTO(
-                    resultSet.getLong("id"),
-                    resultSet.getLong("apprentice_id"),
-                    resultSet.getLong("rotation_id"),
+                    resultSet.getInt("id"),
+                    resultSet.getInt("apprentice_id"),
+                    resultSet.getInt("rotation_id"),
                     resultSet.getDate("start_date").toLocalDate(),
                     resultSet.getDate("end_date").toLocalDate()
             );

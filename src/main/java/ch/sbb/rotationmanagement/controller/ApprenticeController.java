@@ -23,7 +23,7 @@ public class ApprenticeController {
     }
 
     @GetMapping("${api.apprentice}/{id}")
-    public ApprenticeDTO getApprenticeById(@PathVariable Long id) {
+    public ApprenticeDTO getApprenticeById(@PathVariable("id") Integer id) {
         return this.apprenticeService.getApprenticeById(id);
     }
 
@@ -41,21 +41,22 @@ public class ApprenticeController {
 
     @DeleteMapping("${api.apprentice}/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteApprenticeById(@PathVariable Long id) {
+    public void deleteApprenticeById(@PathVariable("id") Integer id) {
         this.apprenticeService.deleteApprenticeById(id);
     }
 
     @GetMapping("${api.apprentice}/{id}/competencies")
-    public List<CompetencyDTO> getApprenticeCompetencies(@PathVariable Long id) {
+    public List<CompetencyDTO> getApprenticeCompetencies(@PathVariable("id") Integer id) {
         return this.apprenticeService.getApprenticeCompetencies(id);
     }
 
-    @PutMapping("${api.apprentice}/{id}/competencies")
+    @PutMapping("${api.apprentice}/{apprenticeId}/{competencyId}/{competencyState}/competencies")
     @ResponseStatus(HttpStatus.OK)
     public void updateCompetenciesByApprentice(
-            @PathVariable Long id,
-            @RequestBody List<CompetencyDTO> competencyDTOs
+            @PathVariable("apprenticeId") Integer apprenticeId,
+            @PathVariable("competencyId") Integer competencyId,
+            @PathVariable("competencyState") String competencyState
     ) {
-        this.apprenticeService.updateCompetenciesByApprentice(id, competencyDTOs);
+        this.apprenticeService.updateCompetenciesByApprentice(apprenticeId, competencyId, competencyState);
     }
 }

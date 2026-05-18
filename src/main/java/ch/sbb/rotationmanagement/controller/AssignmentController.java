@@ -22,8 +22,13 @@ public class AssignmentController {
     }
 
     @GetMapping("${api.assignment}/{id}")
-    public AssignmentDTO getAssignmentById(@PathVariable Long id) {
+    public AssignmentDTO getAssignmentById(@PathVariable("id") Integer id) {
         return this.assignmentService.getAssignmentById(id);
+    }
+
+    @GetMapping("${api.assignment}/apprentice/{id}")
+    public AssignmentDTO getAssignmentByApprentice(@PathVariable("id") Integer id) {
+        return this.assignmentService.getAssignmentByApprentice(id);
     }
 
     @PostMapping("${api.assignment}")
@@ -34,7 +39,7 @@ public class AssignmentController {
 
     @DeleteMapping("${api.assignment}/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteAssignmentById(@PathVariable Long id) {
+    public void deleteAssignmentById(@PathVariable("id") Integer id) {
         this.assignmentService.deleteAssignmentById(id);
     }
 }

@@ -20,7 +20,7 @@ public class MultipleRotationExtractor implements ResultSetExtractor<List<Rotati
         while (resultSet.next()) {
 
             RotationDTO rotationDTO = new RotationDTO(
-                    resultSet.getLong("id"),
+                    resultSet.getInt("id"),
                     resultSet.getString("title"),
                     resultSet.getString("description"),
                     resultSet.getString("department"),

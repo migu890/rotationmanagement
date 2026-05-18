@@ -16,11 +16,11 @@ public class AssignmentExtractor implements ResultSetExtractor<AssignmentDTO> {
         AssignmentDTO assignment = new AssignmentDTO();
 
         while (resultSet.next()) {
-            assignment.setId(resultSet.getLong("id"));
-            assignment.setApprenticeId(resultSet.getLong("apprenticeId"));
-            assignment.setRotationId(resultSet.getLong("rotationId"));
-            assignment.setStartDate(resultSet.getDate("startDate").toLocalDate());
-            assignment.setEndDate(resultSet.getDate("endDate").toLocalDate());
+            assignment.setId(resultSet.getInt("id"));
+            assignment.setApprenticeId(resultSet.getInt("apprentice_id"));
+            assignment.setRotationId(resultSet.getInt("rotation_id"));
+            assignment.setStartDate(resultSet.getDate("start_date").toLocalDate());
+            assignment.setEndDate(resultSet.getDate("end_date").toLocalDate());
 
         }
 

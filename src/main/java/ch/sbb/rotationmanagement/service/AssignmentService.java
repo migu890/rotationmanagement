@@ -19,15 +19,19 @@ public class AssignmentService {
         return this.assignmentRepository.getAllAssignments();
     }
 
-    public AssignmentDTO getAssignmentById(Long id) {
+    public AssignmentDTO getAssignmentById(Integer id) {
         return this.assignmentRepository.getAssignmentById(id);
+    }
+
+    public AssignmentDTO getAssignmentByApprentice(Integer id) {
+        return this.assignmentRepository.getAssignmentByApprentice(id);
     }
 
     public void createAssignment(AssignmentDTO assignmentDTO) {
         this.assignmentRepository.createAssignment(assignmentDTO);
     }
 
-    public void deleteAssignmentById(Long id) {
+    public void deleteAssignmentById(Integer id) {
         this.assignmentRepository.deleteAssignmentById(id);
     }
 }

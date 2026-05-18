@@ -17,7 +17,7 @@ public class MultipleApprenticeExtractor implements ResultSetExtractor<List<Appr
 
         while (resultSet.next()) {
             ApprenticeDTO apprentice = new ApprenticeDTO(
-                    resultSet.getLong("id"),
+                    resultSet.getInt("id"),
                     resultSet.getString("first_name"),
                     resultSet.getString("last_name"),
                     resultSet.getInt("year"),

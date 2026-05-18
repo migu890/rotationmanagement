@@ -4,16 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AssignmentDTO {
+public class MatchDTO {
 
-    private Integer id;
-    private Integer apprenticeId;
     private Integer rotationId;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private String rotationTitle;
+    private String department;
+    private String technologies;
+    private Double matchingScore;
 }

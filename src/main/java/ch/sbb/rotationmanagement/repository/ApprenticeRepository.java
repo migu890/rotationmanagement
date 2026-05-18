@@ -5,6 +5,7 @@ import ch.sbb.rotationmanagement.dto.CompetencyDTO;
 import ch.sbb.rotationmanagement.extractor.MultipleApprenticeExtractor;
 import ch.sbb.rotationmanagement.extractor.ApprenticeExtractor;
 import ch.sbb.rotationmanagement.extractor.CompetencyExtractor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -28,7 +29,7 @@ public class ApprenticeRepository {
             MultipleApprenticeExtractor multipleApprenticeExtractor,
             ApprenticeExtractor apprenticeExtractor,
             CompetencyExtractor competencyExtractor,
-            Properties queryProperties
+            @Qualifier("rotationQueries") Properties queryProperties
     ) {
         this.jdbcTemplate = jdbcTemplate;
         this.apprenticeExtractor = apprenticeExtractor;
@@ -40,20 +41,13 @@ public class ApprenticeRepository {
     public List<ApprenticeDTO> getAllApprentices() {
 
         String query = this.queryProperties.getProperty("getAllApprentices");
-
-        Map<String, Object> queryParameters = new HashMap<>();
-
-        MapSqlParameterSource parameters =
-                new MapSqlParameterSource(queryParameters);
-
         return this.jdbcTemplate.query(
                 query,
-                parameters,
                 this.multipleApprenticeExtractor
         );
     }
 
-    public ApprenticeDTO getApprenticeById(Long id) {
+    public ApprenticeDTO getApprenticeById(Integer id) {
 
         String query = this.queryProperties.getProperty("getApprenticeById");
 
@@ -111,23 +105,38 @@ public class ApprenticeRepository {
         );
     }
 
-    public void deleteApprenticeById(Long id) {
+    public void deleteApprenticeById(Integer id) {
 
-        String query = this.queryProperties.getProperty("deleteApprenticeById");
+        String deleteCompetenciesQuery =
+                this.queryProperties.getProperty("deleteCompetenciesByApprenticeId");
 
-        Map<String, Object> queryParameters = new HashMap<>();
-        queryParameters.put("id", id);
+        Map<String, Object> deleteCompetenciesParametersMap = new HashMap<>();
+        deleteCompetenciesParametersMap.put("id", id);
 
-        MapSqlParameterSource parameters =
-                new MapSqlParameterSource(queryParameters);
+        MapSqlParameterSource deleteCompetenciesParameters =
+                new MapSqlParameterSource(deleteCompetenciesParametersMap);
 
         this.jdbcTemplate.update(
-                query,
-                parameters
+                deleteCompetenciesQuery,
+                deleteCompetenciesParameters
+        );
+
+        String deleteApprenticeQuery =
+                this.queryProperties.getProperty("deleteApprenticeById");
+
+        Map<String, Object> deleteApprenticeParametersMap = new HashMap<>();
+        deleteApprenticeParametersMap.put("id", id);
+
+        MapSqlParameterSource deleteApprenticeParameters =
+                new MapSqlParameterSource(deleteApprenticeParametersMap);
+
+        this.jdbcTemplate.update(
+                deleteApprenticeQuery,
+                deleteApprenticeParameters
         );
     }
 
-    public List<CompetencyDTO> getApprenticeCompetencies(Long id) {
+    public List<CompetencyDTO> getApprenticeCompetencies(Integer id) {
 
         String query = this.queryProperties.getProperty("getApprenticeCompetencies");
 
@@ -144,28 +153,14 @@ public class ApprenticeRepository {
         );
     }
 
-    public void updateCompetenciesByApprentice(Long id, List<CompetencyDTO> competencyDTOs) {
+    public void updateCompetenciesByApprentice(Integer apprenticeId, Integer competencyId, String competencyState) {
 
-        String deleteQuery = this.queryProperties.getProperty("deleteCompetenciesByApprenticeId");
-
-        Map<String, Object> deleteParametersMap = new HashMap<>();
-        deleteParametersMap.put("id", id);
-
-        MapSqlParameterSource deleteParameters =
-                new MapSqlParameterSource(deleteParametersMap);
-
-        this.jdbcTemplate.update(
-                deleteQuery,
-                deleteParameters
-        );
-
-        String insertQuery = this.queryProperties.getProperty("createApprenticeCompetency");
-
-        for (CompetencyDTO competencyDTO : competencyDTOs) {
+        String insertQuery = this.queryProperties.getProperty("updateApprenticeCompetency");
 
             Map<String, Object> insertParametersMap = new HashMap<>();
-            insertParametersMap.put("apprenticeId", id);
-            insertParametersMap.put("competencyId", competencyDTO.getId());
+            insertParametersMap.put("apprenticeId", apprenticeId);
+            insertParametersMap.put("competencyId", competencyId);
+            insertParametersMap.put("competencyState", competencyState);
 
             MapSqlParameterSource insertParameters =
                     new MapSqlParameterSource(insertParametersMap);
@@ -176,4 +171,3 @@ public class ApprenticeRepository {
             );
         }
     }
-}

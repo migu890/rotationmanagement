@@ -2,6 +2,7 @@ package ch.sbb.rotationmanagement.repository;
 
 import ch.sbb.rotationmanagement.dto.CompetencyDTO;
 import ch.sbb.rotationmanagement.extractor.CompetencyExtractor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -21,7 +22,7 @@ public class CompetencyRepository {
     public CompetencyRepository(
             NamedParameterJdbcTemplate jdbcTemplate,
             CompetencyExtractor competencyExtractor,
-            Properties queryProperties
+            @Qualifier("rotationQueries") Properties queryProperties
     ) {
         this.jdbcTemplate = jdbcTemplate;
         this.competencyExtractor = competencyExtractor;
@@ -32,7 +33,18 @@ public class CompetencyRepository {
 
         String query = this.queryProperties.getProperty("getAllCompetencies");
 
+           return this.jdbcTemplate.query(
+                query,
+                this.competencyExtractor
+        );
+    }
+
+    public List<CompetencyDTO> getCompetenciesByRotation(Integer id) {
+
+        String query = this.queryProperties.getProperty("getCompetenciesByRotation");
+
         Map<String, Object> queryParameters = new HashMap<>();
+        queryParameters.put("rotationId", id);
 
         MapSqlParameterSource parameters =
                 new MapSqlParameterSource(queryParameters);

@@ -15,7 +15,7 @@ public class ApprenticeExtractor implements ResultSetExtractor<ApprenticeDTO> {
             ApprenticeDTO apprentice = new ApprenticeDTO();
 
         while (resultSet.next()) {
-                    apprentice.setId(resultSet.getLong("id"));
+                    apprentice.setId(resultSet.getInt("id"));
                     apprentice.setFirstName(resultSet.getString("first_name")); 
                     apprentice.setLastName(resultSet.getString("last_name")); 
                     apprentice.setYear(resultSet.getInt("year"));

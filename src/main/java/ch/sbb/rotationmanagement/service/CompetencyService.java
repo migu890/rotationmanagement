@@ -18,4 +18,8 @@ public class CompetencyService {
     public List<CompetencyDTO> getAllCompetencies() {
         return this.competencyRepository.getAllCompetencies();
     }
+
+    public List<CompetencyDTO> getCompetenciesByRotation(Integer id) {
+        return this.competencyRepository.getCompetenciesByRotation(id);
+    }
 }

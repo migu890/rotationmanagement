@@ -61,6 +61,13 @@
                 id = :id
         </prop>
 
+        <prop key="deleteCompetenciesByApprenticeId">
+            DELETE FROM
+                apprentice_competency
+            WHERE
+                apprentice_id = :id
+        </prop>
+
         <prop key="deleteApprenticeById">
             DELETE FROM
                 apprentice
@@ -71,10 +78,9 @@
         <prop key="getApprenticeCompetencies">
             SELECT
                 competency.id,
-                competency.title,
                 competency.description,
-                competency.competence_area,
-                competency.semester
+                competency.category,
+                competency.code
             FROM
                 competency
             INNER JOIN apprentice_competency
@@ -83,30 +89,25 @@
                 apprentice_competency.apprentice_id = :id
         </prop>
 
-        <prop key="deleteCompetenciesByApprenticeId">
-            DELETE FROM
-                apprentice_competency
-            WHERE
-                apprentice_id = :id
-        </prop>
-
-        <prop key="createApprenticeCompetency">
+        <prop key="updateApprenticeCompetency">
             INSERT INTO apprentice_competency (
                 apprentice_id,
-                competency_id
+                competency_id,
+                competency_state
             )
             VALUES (
                 :apprenticeId,
-                :competencyId
+                :competencyId,
+                :competencyState
             )
         </prop>
+
         <prop key="getAllCompetencies">
             SELECT
                 id,
-                title,
                 description,
-                competence_area,
-                semester
+                category,
+                code
             FROM
                 competency
         </prop>
@@ -137,6 +138,36 @@
             WHERE
                 status = 'AVAILABLE'
         </prop>
+
+        <prop key="getRotationById">
+            SELECT
+                id,
+                title,
+                description,
+                department,
+                technologies,
+                status,
+                date_of_availability
+            FROM
+                rotation
+            WHERE
+                id = :id
+        </prop>
+
+        <prop key="updateRotationById">
+            UPDATE
+                rotation
+            SET
+                title = :title,
+                description = :description,
+                department = :department,
+                technologies = :technologies,
+                status = :status,
+                date_of_availability = :dateOfAvailability
+            WHERE
+                id = :id
+        </prop>
+
         <prop key="getAllAssignments">
             SELECT
                 id,
@@ -161,6 +192,19 @@
                 id = :id
         </prop>
 
+        <prop key="getAssignmentByApprentice">
+            SELECT
+                id,
+                apprentice_id,
+                rotation_id,
+                start_date,
+                end_date
+            FROM
+                assignment
+            WHERE
+                apprentice_id = :id
+        </prop>
+
         <prop key="createAssignment">
             INSERT INTO assignment (
                 apprentice_id,
@@ -181,6 +225,53 @@
                 assignment
             WHERE
                 id = :id
+        </prop>
+
+        <prop key="getApprenticeCompetencies">
+            SELECT
+                competency.id,
+                competency.description,
+                competency.category,
+                competency.code,
+                apprentice_competency.competency_state
+            FROM
+                competency
+            INNER JOIN apprentice_competency
+                ON competency.id = apprentice_competency.competency_id
+            WHERE
+                apprentice_competency.apprentice_id = :id
+        </prop>
+
+        <prop key="getApprenticeCompetenciesForMatching">
+            SELECT
+            competency.id,
+            competency.description,
+            competency.category,
+            competency.code,
+            apprentice_competency.competency_state,
+            NULL AS weight
+            FROM
+            competency
+            INNER JOIN apprentice_competency
+            ON competency.id = apprentice_competency.competency_id
+            WHERE
+            apprentice_competency.apprentice_id = :id
+        </prop>
+
+        <prop key="getCompetenciesByRotation">
+            SELECT
+                competency.id,
+                competency.description,
+                competency.category,
+                competency.code,
+                NULL AS competency_state,
+                rotation_competency.weight
+            FROM
+                competency
+            INNER JOIN rotation_competency
+                ON competency.id = rotation_competency.competency_id
+            WHERE
+                rotation_competency.rotation_id = :rotationId
         </prop>
 
     </util:properties>
