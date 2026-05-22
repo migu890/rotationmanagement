@@ -34,4 +34,9 @@ public class AssignmentService {
     public void deleteAssignmentById(Integer id) {
         this.assignmentRepository.deleteAssignmentById(id);
     }
+
+    public List<AssignmentDTO> getAllAssignmentsByApprentice(Integer id) {
+        return this.assignmentRepository.getAllAssignmentsByApprentice(id);
+    }
+
 }

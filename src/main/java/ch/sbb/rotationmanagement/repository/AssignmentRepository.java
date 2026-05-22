@@ -110,4 +110,21 @@ public class AssignmentRepository {
                 parameters
         );
     }
+
+    public List<AssignmentDTO> getAllAssignmentsByApprentice(Integer id) {
+
+            String query = this.queryProperties.getProperty("getAllAssignmentsByApprentice");
+
+            Map<String, Object> queryParameters = new HashMap<>();
+            queryParameters.put("id", id);
+
+            MapSqlParameterSource parameters =
+                    new MapSqlParameterSource(queryParameters);
+
+            return this.jdbcTemplate.query(
+                    query,
+                    parameters,
+                    this.multipleAssignmentExtractor
+            );
+        }
 }

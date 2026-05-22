@@ -75,20 +75,6 @@
                 id = :id
         </prop>
 
-        <prop key="getApprenticeCompetencies">
-            SELECT
-                competency.id,
-                competency.description,
-                competency.category,
-                competency.code
-            FROM
-                competency
-            INNER JOIN apprentice_competency
-                ON competency.id = apprentice_competency.competency_id
-            WHERE
-                apprentice_competency.apprentice_id = :id
-        </prop>
-
         <prop key="updateApprenticeCompetency">
             INSERT INTO apprentice_competency (
                 apprentice_id,
@@ -136,7 +122,7 @@
             FROM
                 rotation
             WHERE
-                status = 'AVAILABLE'
+                status = 'available'
         </prop>
 
         <prop key="getRotationById">
@@ -225,6 +211,19 @@
                 assignment
             WHERE
                 id = :id
+        </prop>
+
+        <prop key="getAllAssignmentsByApprentice">
+            SELECT
+                id,
+                apprentice_id,
+                rotation_id,
+                start_date,
+                end_date
+            FROM
+                assignment
+            WHERE
+                apprentice_id = :id
         </prop>
 
         <prop key="getApprenticeCompetencies">

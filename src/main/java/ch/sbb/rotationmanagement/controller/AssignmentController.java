@@ -42,4 +42,10 @@ public class AssignmentController {
     public void deleteAssignmentById(@PathVariable("id") Integer id) {
         this.assignmentService.deleteAssignmentById(id);
     }
+
+    @GetMapping("${api.assignment}/apprentice/{id}")
+    public List<AssignmentDTO> getAllAssignmentsByApprentice(@PathVariable("id") Integer id) {
+        return this.assignmentService.getAllAssignmentsByApprentice(id);
+    }
+    
 }
